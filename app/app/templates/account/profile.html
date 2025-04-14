@@ -1,0 +1,37 @@
+<h2>Cập nhật hồ sơ</h2>
+
+<form method="POST" enctype="multipart/form-data">  <!-- enctype cho phép upload ảnh -->
+  {% csrf_token %}
+
+  <div>
+    <label for="first_name">Tên</label>
+    {{ user_form.first_name }}
+  </div>
+
+  <div>
+    <label for="last_name">Họ</label>
+    {{ user_form.last_name }}
+  </div>
+
+  <div>
+    <label for="email">Email</label>
+    {{ user_form.email }}
+  </div>
+
+  <div>
+    <label for="bio">Tiểu sử</label>
+    {{ profile_form.bio }}
+  </div>
+
+  <div>
+    <label for="avatar">Avatar</label>
+    {{ profile_form.avatar }}
+  </div>
+
+  <div>
+    <label for="birthday">Ngày sinh</label>
+    {{ profile_form.birthday }}
+  </div>
+
+  <button type="submit">Cập nhật</button>
+</form>

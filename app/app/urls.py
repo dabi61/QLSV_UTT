@@ -1,23 +1,33 @@
-"""
-URL configuration for app project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-
-from django.contrib import admin
 from django.urls import path
+from django.contrib.auth.models import User
+from viewflow.contrib.auth import AuthViewset
+from viewflow.urls import Application, Site, ModelViewset
+from room.views import CityViewset
+from core.views import MyAuthViewset
+from core.forms import CustomLoginForm
+from django.contrib.auth.views import LoginView
+
+
+site = Site(title="QLSV UTT", viewsets=[
+    Application(
+        title='Quản lý người dùng', icon='people', app_name='home', viewsets=[
+            ModelViewset(model=User),
+        ]
+    ),
+    Application(
+        title='Lớp học', icon='people', app_name='room', viewsets=[
+            CityViewset(),
+        ]
+    ),
+])
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    # path('accounts/', AuthViewset(with_profile_view=False).urls),
+    path('',site.urls),
+    path('accounts/', AuthViewset(
+        allow_password_change=True,
+        with_profile_view=True,
+        login_view=LoginView.as_view(authentication_form=CustomLoginForm)
+    ).urls),
+
 ]
